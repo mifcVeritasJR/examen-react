@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import ListadoEmpleados from './components/ListadoEmpleados';
+import ModalEmpleado from './components/ModalEmpleados';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
+const App = () => {
+  const [showModal, setShowModal] = useState(False);
+
+  const addEmpleado = async (empleado) => {
+    await axios.post('https://674c84c054e1fca9290cd05f.mockapi.io/api/examen/empleado', empleado);
+    setShowModal(false);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container mt-4">
+      <h1>Gestión de Empleados</h1>
+      <button className="btn btn-primary my-3" onClick={() => setShowModal(true)}>
+        Agregar Empleado
+      </button>
+      <ListadoEmpleados />
+      {showModal && <ModalEmpleado onAdd={addEmpleado} />}
     </div>
   );
-}
+};
 
 export default App;
+  
